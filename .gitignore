@@ -1,3 +1,10 @@
+# Exclude PhoneProvision Files 
+/files/cert/*.key
+/files/cert/*.pem
+/files/firmware/*.zip
+/files/firmware/*.iso
+/files/firmware/*.img
+
 # Logs
 logs
 *.log
