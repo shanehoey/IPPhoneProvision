@@ -1,6 +1,8 @@
 FROM node:slim
 
-LABEL org.opencontainers.image.source=https://github.com/shanehoey/phoneprovision
+LABEL name="Phone Provision"\
+      maintainer="Shane Hoey"\
+      org.opencontainers.image.source=https://github.com/shanehoey/phoneprovision
 
 ENV NODE_ENV=production
 ENV DEBIAN_FRONTEND noninteractive
