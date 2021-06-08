@@ -1,36 +1,33 @@
 /* 
  * Phone Provision 
- * server.js 
- * version 1.0.0
  * Shane Hoey
+ * https://github.com/shanehoey/phoneprovision
  */
 
-var express = require('express');
-var https = require('https');
-var fs = require('fs');
-var helmet = require('helmet');
-const app = express();
-app.use(helmet());
+
+
+const express = require('express'),
+      https = require('https'),
+      fs = require('fs'),
+      helmet = require('helmet'),
+      app = express(),
+      port = process.env.PORT || 443;
 
 //  App Defaults
-var privatekey = fs.readFileSync('./files/cert/cert.key');
-var certificate = fs.readFileSync('./files/cert/cert.pem');
-var firmwareRouter = require('./routes/firmware')
-var configRouter =require('./routes/config')
-var debugRouter =require('./routes/debug')
+const privatekey = fs.readFileSync('./files/cert/cert.key'),
+      certificate = fs.readFileSync('./files/cert/cert.pem'),
+      firmwareRouter = require('./routes/firmware'),
+      configRouter =require('./routes/config'),
+      debugRouter =require('./routes/debug'),
+      cert = { key: privatekey,cert: certificate};
 
-const port = process.env.PORT || 443;
-
-var cert = {
-   key: privatekey,
-   cert: certificate
-};
-  
 const server = https.createServer(cert,app)
    .listen(port, () => { 
        console.info(`listening:${port}`); 
    }               
 );
+
+app.use(helmet());  
 
 //case insensitive req.query
 //app.use((req, res, next) => {
@@ -41,13 +38,9 @@ const server = https.createServer(cert,app)
 //  next();
 // });
 
-// firmware files Router
+// Router
 app.use('/firmware/', firmwareRouter);
-
-// configs Router
 app.use('/config/', configRouter);
-
-// configs Router
 app.use('/debug/', debugRouter);
 
 // catch 404

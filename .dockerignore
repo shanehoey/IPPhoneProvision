@@ -3,4 +3,3 @@ Dockerfile*
 .*
 README.md
 ./temp/*
-./firmware/audiocodes/*

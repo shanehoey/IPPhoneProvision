@@ -1,6 +1,6 @@
 # readme.md
 
-Upload all Certificates here
+Upload Certificates here
 
-* cert.key
-* cert.pem
+* cert.key (private key)
+* cert.pem (certificate)
