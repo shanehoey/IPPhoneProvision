@@ -13,7 +13,7 @@ const express = require('express'),
 
 //  App Defaults
 const privatekey = fs.readFileSync('./files/cert/cert.key'),
-      certificate = fs.readFileSync('./files/cert/cert.pem'),
+      certificate = fs.readFileSync('./files/cert/cert.crt'),
       firmwareRouter = require('./routes/firmware'),
       configRouter =require('./routes/config'),
       debugRouter =require('./routes/debug'),
@@ -26,15 +26,6 @@ const server = https.createServer(cert,app)
 );
 
 app.use(helmet());  
-
-//case insensitive req.query
-//app.use((req, res, next) => {
-//   req.query = new Proxy(req.query, {
-//     get: (target, name) => target[Object.keys(target)
-//       .find(key => key.toLowerCase() === name.toLowerCase())]
-//  })
-//  next();
-// });
 
 // Router
 app.use('/firmware/', firmwareRouter);

@@ -32,6 +32,7 @@ Can also be used with other phones eg Poly, Yealink, etc, if you have a request 
 
 - TODO: Dynamic URL for config files eg /config/teams/?provisioning=10
 - TODO: Dynamic URL for firmware files eg /firmware/{type}/
+- TODO: Static URL for config/firmware files ie /config/static /firmware/static 
 
 ## Release Information
 
