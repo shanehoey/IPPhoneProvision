@@ -4,8 +4,6 @@
  * https://github.com/shanehoey/phoneprovision
  */
 
-
-
 const express = require('express'),
       https = require('https'),
       fs = require('fs'),
