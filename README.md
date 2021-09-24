@@ -24,9 +24,13 @@ Can also be used with other phones eg Poly, Yealink, etc, if you have a request 
 
 ### Publish to github container registry  (Optional)
 
-```docker login ghcr.io -u USERNAME```
+```
+docker build . -t ghcr.io/shanehoey/phoneprovision:latest
 
-```docker push ghcr.io/shanehoey/phoneprovision:latest```
+docker push ghcr.io/shanehoey/phoneprovision:latest
+```
+
+
 
 ## Ideas
 

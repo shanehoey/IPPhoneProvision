@@ -17,6 +17,7 @@ const privatekey = fs.readFileSync('./files/cert/cert.key'),
       firmwareRouter = require('./routes/firmware'),
       configRouter =require('./routes/config'),
       debugRouter =require('./routes/debug'),
+      dhcpRouter =require('./routes/dhcpupdate'),
       cert = { key: privatekey,cert: certificate};
 
 const server = https.createServer(cert,app)
@@ -31,6 +32,7 @@ app.use(helmet());
 app.use('/firmware/', firmwareRouter);
 app.use('/config/', configRouter);
 app.use('/debug/', debugRouter);
+app.use('/dhcpupdate', dhcpRouter);
 
 // catch 404
 app.use(function(req, res, next) {
