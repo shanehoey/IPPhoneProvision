@@ -4,6 +4,9 @@
 /files/firmware/*.zip
 /files/firmware/*.iso
 /files/firmware/*.img
+/files/dhcpupdate/*.zip
+/files/dhcpupdate/*.iso
+/files/dhcpupdate/*.img
 
 # Logs
 logs
