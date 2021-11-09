@@ -18,6 +18,10 @@ const privatekey = fs.readFileSync('./files/cert/cert.key'),
       configRouter =require('./routes/config'),
       debugRouter =require('./routes/debug'),
       dhcpRouter =require('./routes/dhcpupdate'),
+      genericRouter =require('./routes/generic'),
+      sfboRouter =require('./routes/sfbo'),
+      sfbRouter =require('./routes/sfb'),
+      teamsRouter =require('./routes/teams'),    
       cert = { key: privatekey,cert: certificate};
 
 const server = https.createServer(cert,app)

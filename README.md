@@ -46,6 +46,7 @@ docker push ghcr.io/shanehoey/phoneprovision:latest
 
 - pre-release March 2021 - Proof of concept demo
 - pre-release June 2021 - Minor Updates
+- pre-release November 2021 - updated firmware, and additional routes for phone types 
 
 ### Acknowledgements
 

@@ -7,14 +7,14 @@ router = module.exports = express.Router();
 router.use(express.static('files/dhcpupdate'));
 
 // default firmware
-//router.get('/:firmware', (req, res) => {
+router.get('/:firmware', (req, res) => {
     
-//    var firmware = require('../files/json/firmware.json');
- //   let result = firmware.find(firmware => firmware.name.toLowerCase() === req.params.firmware.toLowerCase());
+   var firmware = require('../files/json/dhcpupdate.json');
+   let result = firmware.find(firmware => firmware.name.toLowerCase() === req.params.firmware.toLowerCase());
  
- //   console.info('200        - ' + req.url );
- //   console.info('REDIRECT   - ' + '/firmware/' + result.path );
- //   console.info('USER AGENT - ' + req.get('user-agent'));
- //   res.redirect(301,'/firmware/' + result.path);
+   console.info('200        - ' + req.url );
+   console.info('REDIRECT   - ' + '/firmware/' + result.path );
+   console.info('USER AGENT - ' + req.get('user-agent'));
+   res.redirect(301,'/firmware/' + result.path);
 
- //});
+ });
