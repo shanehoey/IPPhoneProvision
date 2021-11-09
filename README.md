@@ -20,7 +20,9 @@ Can also be used with other phones eg Poly, Yealink, etc, if you have a request 
 
 ### Build Docker Image
 
-```Get-Content Dockerfile | docker build -```
+```
+Get-Content Dockerfile | docker build -
+```
 
 ### Publish to github container registry  (Optional)
 
