@@ -37,8 +37,6 @@ docker push ghcr.io/shanehoey/phoneprovision:latest
 ## Ideas
 
 - TODO: Dynamic URL for config files eg /config/teams/?provisioning=10
-- TODO: Dynamic URL for firmware files eg /firmware/{type}/
-- TODO: Static URL for config/firmware files ie /config/static /firmware/static 
 
 ## Release Information
 
@@ -47,6 +45,7 @@ docker push ghcr.io/shanehoey/phoneprovision:latest
 - pre-release March 2021 - Proof of concept demo
 - pre-release June 2021 - Minor Updates
 - pre-release November 2021 - updated firmware, and additional routes for phone types 
+- v1.00 pre-release November 2021 - Ability to do firmware overrides
 
 ### Acknowledgements
 
