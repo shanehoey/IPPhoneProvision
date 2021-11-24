@@ -1,12 +1,8 @@
 # Exclude PhoneProvision Files 
 /files/cert/*.key
 /files/cert/*.crt
-/files/firmware/*.zip
-/files/firmware/*.iso
-/files/firmware/*.img
-/files/dhcpupdate/*.zip
-/files/dhcpupdate/*.iso
-/files/dhcpupdate/*.img
+/files/firmware/*
+/temp/*
 
 # Logs
 logs

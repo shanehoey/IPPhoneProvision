@@ -19,4 +19,4 @@ RUN npm install
  
 EXPOSE 443
 
-CMD ["node", "server.js"]
+CMD ["node", "phoneprovision.js"]
