@@ -60,6 +60,9 @@
 { "type" : "default", "hardware" : "c448hd", "path" : "/firmware/teams/C448HD.zip" },
 { "type" : "default", "hardware" : "c450hd", "path" : "/firmware/teams/C450HD.zip" },
 { "type" : "default", "hardware" : "c470hd", "path" : "/firmware/teams/C470HD.zip" },
-{ "type" : "default", "hardware" : "rxv80",  "path" : "/firmware/teams/RXV80.zip" }
+{ "type" : "default", "hardware" : "rxv80",  "path" : "/firmware/teams/RXV80.zip" },
 
+{ "type" : "auroz", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
+{ "type" : "team", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
+{ "type" : "home", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" }
 ]

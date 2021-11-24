@@ -212,3 +212,26 @@ module.exports.firmwarerequest = function (req,res){
     };
 
 };
+
+
+module.exports.firmwarerequestoverride = function (req,res){
+    
+    if(process.env.NODE_ENV !== "production") { this.log([req.method,req.originalUrl,req.ip].join(' ')) } else { this.log([req.method,req.originalUrl].join(' ')) };
+    
+    var result = getfirmware(req.params.override,req.params.hardware);
+
+    switch(true) {
+        case (result.length == 1 ):
+        {
+            this.log(result[0].path);
+            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').redirect(301,result[0].path);
+            break;
+        }
+        default:
+        {
+            this.firmwarerequest(req.res);
+        }
+    };
+
+};
+

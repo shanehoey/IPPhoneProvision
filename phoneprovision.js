@@ -47,6 +47,9 @@ app.get('/:folder(firmware)?/:type(teams|sfb|sfbo|generic|broadsoft|genesys)?/:h
     common.firmwarerequest(req,res);
 });
 
+app.get('/:folder(firmware)?/:override(auroz|home|team)?/:hardware.:ext(zip|img)', (req, res) => {
+    common.firmwarerequestoverride(req,res);
+});
 
 // 404
 app.use(function(req, res, next) {
