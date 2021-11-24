@@ -18,25 +18,37 @@ Can also be used with other phones eg Poly, Yealink, etc, if you have a request 
 
 ## Building the Docker image
 
+``` Login to ghcr.io
+
+docker login  ghcr.io -u username 
+
+```
+
 ### Build Docker Image
 
 ```
-Get-Content Dockerfile | docker build -
-```
 
-### Publish to github container registry  (Optional)
-
-```
 docker build . -t ghcr.io/shanehoey/phoneprovision:latest
 
-docker push ghcr.io/shanehoey/phoneprovision:latest
 ```
+
+### Push to github container registry
+
+```
+
+docker push ghcr.io/shanehoey/phoneprovision:latest
+
+```
+
+## Troubleshooting
+
+* Make sure that all firmware files are unblocked when you download them 
 
 
 
 ## Ideas
 
-- TODO: Dynamic URL for config files eg /config/teams/?provisioning=10
+- TODO: Dynamic URL for config files eg /config/teams/?p=10&a=8
 
 ## Release Information
 
@@ -45,7 +57,7 @@ docker push ghcr.io/shanehoey/phoneprovision:latest
 - pre-release March 2021 - Proof of concept demo
 - pre-release June 2021 - Minor Updates
 - pre-release November 2021 - updated firmware, and additional routes for phone types 
-- v1.00 pre-release November 2021 - Ability to do firmware overrides
+- v1.00 pre-release November 2021 - Ability to do firmware overrids
 
 ### Acknowledgements
 

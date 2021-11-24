@@ -56,7 +56,6 @@ module.exports.log = function (msg,status) {
             }
         };
 };
-//  res.download(path [, filename] [, options] [, fn])
 
 // get config
 function getconfig (macaddress){
@@ -84,15 +83,19 @@ function getfirmware (type,hardware){
     };
 
     return result;
+
 };
 
+// getversion
 function getversion () {
    var result =  version;
    return result;
 };
 
-// debug
-// /debug/
+///////////////////////////////////////////////////////
+// debug requests
+///////////////////////////////////////////////////////
+
 module.exports.debugrequest = function (req,res) {
     
    
@@ -168,7 +171,23 @@ module.exports.debugfirmwarerequest = function (req,res){
 };
 
 
+module.exports.debugfirmwarestaticrequest = function (req,res) {
+    
+   
+    if(process.env.NODE_ENV !== "production") { var message = [req.method,req.originalUrl,req.ip].join(' ') } else {var message = [req.method,req.originalUrl].join(' ')};
+
+    var result = getversion();
+
+    res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(result);
+
+    this.log(message);
+
+};
+
+///////////////////////////////////////////////////////
 // config request
+///////////////////////////////////////////////////////
+
 // /:folder(config)?/:macaddress.:ext(cfg)
 module.exports.configrequest = function (req,res){
     
@@ -187,32 +206,31 @@ module.exports.configrequest = function (req,res){
     this.log(message);
 
 };
-
+///////////////////////////////////////////////////////
 // firmware request
-// /:folder?(firmware)/:type?(teams|sfb|sfbo|generic|broadsoft|genesys)/:hardware.:ext(zip|img)
+///////////////////////////////////////////////////////
 
 module.exports.firmwarerequest = function (req,res){
     
-    if(process.env.NODE_ENV !== "production") { this.log([req.method,req.originalUrl,req.ip].join(' ')) } else { this.log([req.method,req.originalUrl].join(' ')) };
+    if(process.env.NODE_ENV !== "production") { this.log([req.originalUrl,req.ip].join(' '),req.method) } else { this.log([req.method,req.originalUrl].join(' '),req.method) };
     
     if (req.params.type) { var result = getfirmware(req.params.type,req.params.hardware); } else { var result = getfirmware("default",req.params.hardware); };
 
     switch(true) {
         case (result.length == 1 ):
         {
-            this.log(result[0].path);
+            this.log(result[0].path,"301");
             res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').redirect(301,result[0].path);
             break;
         }
         default:
         {
-            this.log(result[0].path);
+            this.log(req.originalUrl,"203");
             res.set('Cache-control','no-store').set('x-phoneprovision','firmwarenotfound').status(203).send();
         }
     };
 
 };
-
 
 module.exports.firmwarerequestoverride = function (req,res){
     
@@ -229,9 +247,8 @@ module.exports.firmwarerequestoverride = function (req,res){
         }
         default:
         {
-            this.firmwarerequest(req.res);
+            this.firmwarerequest(req,res);
         }
     };
 
 };
-

@@ -4,7 +4,7 @@
 { "type" : "broadsoft", "hardware" : "405hd", "path" : "/firmware/broadsoft/405HD_2.2.16.142.12.img" },
 { "type" : "broadsoft", "hardware" : "420hd", "path" : "/firmware/broadsoft/420HD_2.2.16.142.12.img" },
 { "type" : "broadsoft", "hardware" : "430hd", "path" : "/firmware/broadsoft/430HD_2.2.16.142.12.img" },
-{ "type" : "broadsoft", "hardware" : "440hd", "path" : "/firmware/broadsoft/440HD_2.2.16.142.12..img" },
+{ "type" : "broadsoft", "hardware" : "440hd", "path" : "/firmware/broadsoft/440HD_2.2.16.142.12.img" },
 
 { "type" : "generic", "hardware" : "405",    "path" : "/firmware/generic/405_2.2.16.501.img" },
 { "type" : "generic", "hardware" : "405hd",  "path" : "/firmware/generic/405HD_2.2.16.501" },
@@ -64,5 +64,6 @@
 
 { "type" : "auroz", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
 { "type" : "team", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
-{ "type" : "home", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" }
+{ "type" : "home", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
+{ "type" : "branch", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" }
 ]
