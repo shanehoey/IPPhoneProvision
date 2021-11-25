@@ -49,13 +49,17 @@ app.get('/:folder(config)?/:file.:ext(cfg)', (req, res) => {
 // Firmware
 ///////////////////////////////////////////////////////
 
-app.use('/firmware',express.static('files/firmware',{ setHeaders: function (res, path, stat) { res.set('x-phoneprovision','staticconfig') }}));
+app.use('/firmware',express.static('files/firmware',{ setHeaders: function (res, path, stat) { res.set('x-phoneprovision','staticfirmware') }}));
 
 app.get('/:type(teams|sfb|sfbo|generic|broadsoft|genesys)?/:hardware.:ext(zip|img)', (req, res) => {
+    common.log("/:type(teams|sfb|sfbo|generic|broadsoft|genesys)?/:hardware.:ext(zip|img)","dev");
+    common.log(req.originalUrl,req.method);
     common.firmwarerequest(req,res);
 });
 
 app.get('/:override(home|team|branch|auroz)?/:hardware.:ext(zip|img)', (req, res) => {
+    common.log("/:override(home|team|branch|auroz)?/:hardware.:ext(zip|img)","dev");
+    common.log(req.originalUrl,req.method);
     common.firmwarerequestoverride(req,res);
 });
 
@@ -63,8 +67,11 @@ app.get('/:override(home|team|branch|auroz)?/:hardware.:ext(zip|img)', (req, res
 
 // 404
 app.use(function(req, res, next) {
-   console.info('404 - ' + req.url + " - " + req.get('user-agent'));
-   res.set('Cache-control','no-store').set('x-phoneprovision','not found').status(204).send();
+
+    common.log( `${req.originalUrl} -> 404 Not Found`,"dev"); 
+    common.log(req.originalUrl,"404");
+    console.log();
+    res.set('Cache-control','no-store').set('x-phoneprovision','not found').status(404).send();
 });
 
 // Start Web Server
@@ -76,7 +83,7 @@ if( process.env.NODE_ENV !== "production" ){
     common.log("Lorem ipsum dolor sit amet","error");
     common.log("Lorem ipsum dolor sit amet","warning");
     common.log("Lorem ipsum dolor sit amet","info");
-    common.log("Lorem ipsum dolor sit amet","SimpleDoc");
+    common.log("Lorem ipsum dolor sit amet","PhoneProvision");
     common.log("Lorem ipsum dolor sit amet","");
     common.log("Lorem ipsum dolor sit amet");
     common.log("Lorem ipsum dolor sit amet","dev");
@@ -86,5 +93,6 @@ if( process.env.NODE_ENV !== "production" ){
 // start web server
 const server = https.createServer(common.cert,app)
     .listen(common.port, () => { 
-        common.log( `Listening: ${common.port}` );
+        common.log( common.port,"Listening" );
+        console.log();
 });

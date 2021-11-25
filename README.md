@@ -29,6 +29,7 @@ docker login  ghcr.io -u username
 ```
 
 docker build . -t ghcr.io/shanehoey/phoneprovision:latest
+docker build . -t ghcr.io/shanehoey/phoneprovision:dev
 
 ```
 
@@ -37,6 +38,7 @@ docker build . -t ghcr.io/shanehoey/phoneprovision:latest
 ```
 
 docker push ghcr.io/shanehoey/phoneprovision:latest
+docker push ghcr.io/shanehoey/phoneprovision:dev
 
 ```
 

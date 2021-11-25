@@ -62,8 +62,8 @@
 { "type" : "default", "hardware" : "c470hd", "path" : "/firmware/teams/C470HD.zip" },
 { "type" : "default", "hardware" : "rxv80",  "path" : "/firmware/teams/RXV80.zip" },
 
-{ "type" : "auroz", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
-{ "type" : "team", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
-{ "type" : "home", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" },
-{ "type" : "branch", "hardware" : "c450hd",  "path" : "/firmware/sfbo/UCC450HD_3.4.4.1000.69.img" }
+{ "type" : "auroz", "hardware" : "420hd",  "path" : "/firmware/sfb/UC420HD_3.0.1.429.img" },
+{ "type" : "team", "hardware" : "420hd",  "path" : "/firmware/sfb/UC420HD_3.0.1.429.img" },
+{ "type" : "home", "hardware" : "420hd",  "path" : "/firmware/sfb/UC420HD_3.0.1.429.img" },
+{ "type" : "branch", "hardware" : "420hd",  "path" : "/firmware/sfb/UC420HD_3.0.1.429.img" }
 ]

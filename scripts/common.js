@@ -190,7 +190,7 @@ module.exports.debugfirmwarestaticrequest = function (req,res) {
 
 // /:folder(config)?/:macaddress.:ext(cfg)
 module.exports.configrequest = function (req,res){
-    
+    if(process.env.NODE_ENV !== "production") { this.log("","configrequest"); };
     if(process.env.NODE_ENV !== "production") { var message = [req.method,req.originalUrl,req.ip].join(' ') } else {var message = [req.method,req.originalUrl].join(' ')};
     
     if (req.params.macaddress) {
@@ -199,41 +199,40 @@ module.exports.configrequest = function (req,res){
         var response = getconfig();
     }
 
-    this.log(`[PhoneProvision] Returned ${response.length} results`);
 
     res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(response);
     
-    this.log(message);
 
 };
 ///////////////////////////////////////////////////////
 // firmware request
 ///////////////////////////////////////////////////////
 
-module.exports.firmwarerequest = function (req,res){
-    
-    if(process.env.NODE_ENV !== "production") { this.log([req.originalUrl,req.ip].join(' '),req.method) } else { this.log([req.method,req.originalUrl].join(' '),req.method) };
+module.exports.firmwarerequest = function (req,res) {
     
     if (req.params.type) { var result = getfirmware(req.params.type,req.params.hardware); } else { var result = getfirmware("default",req.params.hardware); };
 
     switch(true) {
         case (result.length == 1 ):
         {
-            this.log(result[0].path,"301");
-            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').redirect(301,result[0].path);
+            this.log(`${req.originalUrl} -> firmwarerequest -> 301 redirect -> ${result[0].path}`,"dev"); 
+            //res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').redirect(301,result[0].path);
+            //res.redirect(301,result[0].path);
+            res.download(path.join( path.resolve(),"files",result[0].path ));
+
             break;
         }
         default:
         {
-            this.log(req.originalUrl,"203");
-            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarenotfound').status(203).send();
+            this.log( `${req.originalUrl} -> firmwarerequest -> 404 Not Found`,"dev"); 
+            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarenotfound').status(404).send();
         }
     };
-
+    console.log();
 };
 
 module.exports.firmwarerequestoverride = function (req,res){
-    
+
     if(process.env.NODE_ENV !== "production") { this.log([req.method,req.originalUrl,req.ip].join(' ')) } else { this.log([req.method,req.originalUrl].join(' ')) };
     
     var result = getfirmware(req.params.override,req.params.hardware);
@@ -241,13 +240,19 @@ module.exports.firmwarerequestoverride = function (req,res){
     switch(true) {
         case (result.length == 1 ):
         {
-            this.log(result[0].path);
-            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').redirect(301,result[0].path);
+       
+            this.log(`${req.originalUrl} -> firmwarerequestoverride -> ${result[0].path} -> firmwarerequest`,"dev"); 
+            //res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequestoverride').redirect(301,result[0].path);
+            res.download(path.join( path.resolve(),"files",result[0].path ));
             break;
+
         }
         default:
         {
+
+            this.log( `${req.originalUrl} -> firmwarerequestoverride -> Override Not found  -> firmwarerequest`,"dev"); 
             this.firmwarerequest(req,res);
+
         }
     };
 
