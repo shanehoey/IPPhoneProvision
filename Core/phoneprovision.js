@@ -4,11 +4,13 @@
  * https://github.com/shanehoey/phoneprovision
  */
 
+console.clear();
+
 const express = require('express'),
       https = require('https'),
       helmet = require('helmet'),
       app = express(),
-      common = require('./scripts/common');
+      common = require('./common');
 
 app.use(helmet());  
 
@@ -67,7 +69,6 @@ app.get('/:override(home|team|branch|auroz)?/:hardware.:ext(zip|img)', (req, res
 
 // 404
 app.use(function(req, res, next) {
-
     common.log( `${req.originalUrl} -> 404 Not Found`,"dev"); 
     common.log(req.originalUrl,"404");
     console.log();
@@ -75,24 +76,25 @@ app.use(function(req, res, next) {
 });
 
 // Start Web Server
-console.clear();
-common.log("loaded phoneprovision.js","dev");
+
+common.log("phoneprovision.js","dev");
 
 if( process.env.NODE_ENV !== "production" ){
-    console.log();
-    common.log("Lorem ipsum dolor sit amet","error");
-    common.log("Lorem ipsum dolor sit amet","warning");
-    common.log("Lorem ipsum dolor sit amet","info");
-    common.log("Lorem ipsum dolor sit amet","PhoneProvision");
-    common.log("Lorem ipsum dolor sit amet","");
-    common.log("Lorem ipsum dolor sit amet");
-    common.log("Lorem ipsum dolor sit amet","dev");
-    console.log();
+    //console.log();
+    //common.log("Lorem ipsum dolor sit amet","error");
+    //common.log("Lorem ipsum dolor sit amet","warning");
+    //common.log("Lorem ipsum dolor sit amet","info");
+    //common.log("Lorem ipsum dolor sit amet","PhoneProvision");
+    //common.log("Lorem ipsum dolor sit amet","");
+    //common.log("Lorem ipsum dolor sit amet");
+    //common.log("Lorem ipsum dolor sit amet","dev");
+    //console.log();
 };
 
 // start web server
 const server = https.createServer(common.cert,app)
     .listen(common.port, () => { 
-        common.log( common.port,"Listening" );
+        console.log();
+        common.log( `${common.port}`,"Listening -> " );
         console.log();
 });

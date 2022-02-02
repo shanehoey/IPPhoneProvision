@@ -21,4 +21,4 @@ jspm_packages/
 package-lock.json
 
 # Custom Files
-/phoneprovision/*/
+/firmware/*/*

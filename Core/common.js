@@ -2,16 +2,9 @@
 const   path       = require('path'),
         fs         = require('fs'),
         basicAuth  = require('express-basic-auth'),
-        version = require( path.join( path.resolve(), '/files/json/version.json' )),
-        config = require( path.join( path.resolve(), '/files/json/config.json' )),
-        firmware = require( path.join( path.resolve(), '/files/json/firmware.json' ));
-
-module.exports.staticUserAuth = basicAuth({users: {'phone': '35e62d40-ce98-4283-9332-2e61f7a52fed',challenge: false}});
-module.exports.cert = ({
-    key     : fs.readFileSync( path.join( path.resolve(), '/files/cert/cert.key' )),
-    cert    : fs.readFileSync( path.join( path.resolve(), '/files/cert/cert.crt' ))
-});
-module.exports.port = process.env.PORT || 443;
+        version    = [],
+        config    = [],
+        firmware    = [];
 
 // Log Functions
 module.exports.log = function (msg,status) { 
@@ -21,10 +14,10 @@ module.exports.log = function (msg,status) {
         //BUG status.toLowerCase(); does not work 
         switch(status) {
             case "error":
-                console.log(chalk.black.bgRed("Error"),msg);
+                console.log(chalk.black.bgRed("Error"),chalk.red(msg));
                 break;
             case "warning":
-                console.log(chalk.black.bgYellow("Warning"),msg);
+                console.log(chalk.black.bgCyan("***Warning***"),chalk.cyan(msg));
                 break;
             case "info":
                 console.log(chalk.yellow("Info"),msg);
@@ -57,7 +50,55 @@ module.exports.log = function (msg,status) {
         };
 };
 
-// get config
+this.log("common.js","dev");
+
+try {
+        module.exports.cert = ({
+            key     : fs.readFileSync( path.join( path.resolve(), '/files/cert/cert.key' )),
+            cert    : fs.readFileSync( path.join( path.resolve(), '/files/cert/cert.crt' ))
+        }); 
+} 
+catch (err) 
+{
+        module.exports.cert = ({
+            key     : fs.readFileSync( path.join( path.resolve(), '/files/cert/selfsigned.key' )),
+            cert    : fs.readFileSync( path.join( path.resolve(), '/files/cert/selfsigned.crt' ))
+        });
+        this.log("Certificate is missing -> using selfsigned certificate -> see readme.md","warning")
+}
+
+try {
+module.exports.version = require ( path.join( path.resolve(), '/files/json/version.json' ));
+}
+catch (err) 
+{
+    this.log("Version.json is missing -> using default -> see readme.md","warning")
+    module.exports.version = [];
+}
+
+try {
+    module.exports.firmware = require ( path.join( path.resolve(), '/files/json/firmware.json' ));
+    }
+catch (err) 
+{
+    this.log("firmware.json is missing -> see readme.md","warning")
+    module.exports.firmware = [];
+}
+
+try {
+    module.exports.config = require ( path.join( path.resolve(), '/files/json/config.json' ));
+    }
+catch (err) 
+{
+    this.log("config.json is missing -> see readme.md","warning")
+    module.exports.config = [];
+}
+    
+// TODO: move to version.json
+module.exports.staticUserAuth = basicAuth({users: {'phone': '35e62d40-ce98-4283-9332-2e61f7a52fed',challenge: false}});
+
+module.exports.port = process.env.PORT || 443;
+
 function getconfig (macaddress){
 
     var result = config;
@@ -70,10 +111,9 @@ function getconfig (macaddress){
 
 };
 
-// get firmware
 function getfirmware (type,hardware){
-
-    var result = firmware;
+    
+      var result = firmware;
     
     if (type) {
         var result = result.filter(filtered => filtered.type.toLowerCase() === type.toLowerCase() );
@@ -86,10 +126,22 @@ function getfirmware (type,hardware){
 
 };
 
-// getversion
 function getversion () {
-   var result =  version;
-   return result;
+
+   var result =  this.version;
+
+   switch(true) {
+        case (result == undefined ):
+        {
+            return ("version.json not loaded");
+            break;
+        }
+        default:
+        {
+            return (result);
+        }
+    };
+
 };
 
 ///////////////////////////////////////////////////////
@@ -97,43 +149,47 @@ function getversion () {
 ///////////////////////////////////////////////////////
 
 module.exports.debugrequest = function (req,res) {
-    
-   
-    if(process.env.NODE_ENV !== "production") { var message = [req.method,req.originalUrl,req.ip].join(' ') } else {var message = [req.method,req.originalUrl].join(' ')};
+    this.log("debugrequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
 
     var result = getversion();
-
     res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(result);
-
-    this.log(message);
-
+    let msg = `${req.method} ${req.originalUrl} ${req.ip}`
 };
 
-// debug config request
-module.exports.debugconfigrequest = function (req,res){
-    
+module.exports.debugconfigrequest = function (req,res){ 
+
+    this.log("debugconfigrequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
+
     if (req.params.macaddress) {
         var result = getconfig(req.params.macaddress);
     } else {
         var result = getconfig();
-    }
-
-    res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(result);
-    
-    if(process.env.NODE_ENV !== "production") { 
-        this.log([req.method,req.originalUrl,req.ip].join(' '));
-        this.log(req.params);
-        this.log(`{ results: ${result.length}}`);
-
-    } else {
-        this.log([req.method,req.originalUrl].join(' '));
     };
 
+    switch(true) {
+        case (result.length >= 1 ):
+        {
+            res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(result);
+            break;
+        }
+        default:
+        {
+            res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(204).send();
+        } 
+    };
+
+    this.log(JSON.stringify(req.params),"dev");
+    this.log(`{"results":"${result.length}"}`,"dev");
+ 
 };
 
-// debug firmware request
 module.exports.debugfirmwarerequest = function (req,res){
     
+    this.log("debugfirmwarerequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
+
     var type = req.params.type;
     var hardware = req.params.hardware;
   
@@ -160,72 +216,82 @@ module.exports.debugfirmwarerequest = function (req,res){
         }
     };
 
-    if(process.env.NODE_ENV !== "production") { 
-        this.log([req.method,req.originalUrl,req.ip].join(' '));
-        this.log(req.params);
-        this.log(`{ results: ${result.length}}`);
-    } else {
-        this.log([req.method,req.originalUrl].join(' '));
-    };
+
+    this.log(JSON.stringify(req.params),"dev");
+    this.log(`{"results":"${result.length}"}`,"dev");
 
 };
 
-
 module.exports.debugfirmwarestaticrequest = function (req,res) {
     
-   
-    if(process.env.NODE_ENV !== "production") { var message = [req.method,req.originalUrl,req.ip].join(' ') } else {var message = [req.method,req.originalUrl].join(' ')};
+    this.log("debugfirmwarestaticrequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
 
     var result = getversion();
 
     res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(result);
 
-    this.log(message);
+    this.log([req.method,req.originalUrl,req.ip].join(' '));
 
 };
+
+module.exports.debugallfirmwarerequest = function (req,res) {
+
+    this.log("debugfirmwarestaticrequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
+
+    const isFile = fileName => {
+        return fs.lstatSync(fileName).isFile()
+    }
+    
+    fs.readdirSync(folderPath).map(fileName => {
+        return path.join(folderPath, fileName)
+    })
+    .filter(isFile)
+}
+
 
 ///////////////////////////////////////////////////////
 // config request
 ///////////////////////////////////////////////////////
 
-// /:folder(config)?/:macaddress.:ext(cfg)
 module.exports.configrequest = function (req,res){
-    if(process.env.NODE_ENV !== "production") { this.log("","configrequest"); };
-    if(process.env.NODE_ENV !== "production") { var message = [req.method,req.originalUrl,req.ip].join(' ') } else {var message = [req.method,req.originalUrl].join(' ')};
-    
+
+    this.log("configrequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
+
     if (req.params.macaddress) {
         var response = getconfig(req.params.macaddress);
     } else {
         var response = getconfig();
     }
-
-
     res.type('json').set('Cache-control','no-store').set('x-phoneprovision','debug').status(200).send(response);
     
 
 };
+
 ///////////////////////////////////////////////////////
 // firmware request
 ///////////////////////////////////////////////////////
 
 module.exports.firmwarerequest = function (req,res) {
     
+    this.log("firmwarerequest","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
+
     if (req.params.type) { var result = getfirmware(req.params.type,req.params.hardware); } else { var result = getfirmware("default",req.params.hardware); };
 
     switch(true) {
         case (result.length == 1 ):
         {
             this.log(`${req.originalUrl} -> firmwarerequest -> 301 redirect -> ${result[0].path}`,"dev"); 
-            //res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').redirect(301,result[0].path);
-            //res.redirect(301,result[0].path);
-            res.download(path.join( path.resolve(),"files",result[0].path ));
-
+            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarerequest').download(path.join( path.resolve(),"files",result[0].path ));
             break;
         }
         default:
         {
             this.log( `${req.originalUrl} -> firmwarerequest -> 404 Not Found`,"dev"); 
-            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarenotfound').status(404).send();
+            res.set('Cache-control','no-store').set('x-phoneprovision','firmwarenotfound').status(204).send();
         }
     };
     console.log();
@@ -233,7 +299,8 @@ module.exports.firmwarerequest = function (req,res) {
 
 module.exports.firmwarerequestoverride = function (req,res){
 
-    if(process.env.NODE_ENV !== "production") { this.log([req.method,req.originalUrl,req.ip].join(' ')) } else { this.log([req.method,req.originalUrl].join(' ')) };
+    this.log("firmwarerequestoverride","dev");
+    this.log([req.method,req.originalUrl,req.ip].join(' '),"info");
     
     var result = getfirmware(req.params.override,req.params.hardware);
 
