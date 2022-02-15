@@ -1,0 +1,8 @@
+{
+    // https://go.microsoft.com/fwlink/?LinkId=827846
+    "recommendations": [
+        "GitHub.remotehub",
+        "humao.rest-client",
+        "Gruntfuggly.todo-tree"
+    ]
+}

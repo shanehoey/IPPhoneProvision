@@ -2,6 +2,12 @@
     {
     "name"    : "phoneprovision",
     "version" : "1.0.0",
-    "guid"    : "a9046761-d9e9-4781-af53-5644259e9428"
-    }
+    "guid"    : "a9046761-d9e9-4781-af53-5644259e9428",
+    "users" : 
+            {
+                "audc"          : "78b4d801-7fca-4347-bd1a-5dea374f653d",
+                "directrouting" : "4f40aa3f-eb16-4a13-ac98-536b135305b8",
+                "shanehoey"     : "28a57dec-43ef-43e0-beeb-adc8d49db40e"
+            }
+        }
 ]

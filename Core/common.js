@@ -1,3 +1,8 @@
+/*
+ * common.js
+ * Shane Hoey
+ * https://github.com/shanehoey/phoneprovision
+ */
 
 const   path       = require('path'),
         fs         = require('fs'),
@@ -6,7 +11,9 @@ const   path       = require('path'),
         config    = [],
         firmware    = [];
 
-// Log Functions
+///////////////////////////////////////////////////////
+// Log Function
+///////////////////////////////////////////////////////
 module.exports.log = function (msg,status) { 
     if( process.env.NODE_ENV !== "production" ) {
         let chalk = require('chalk');
@@ -52,6 +59,10 @@ module.exports.log = function (msg,status) {
 
 this.log("common.js","dev");
 
+
+///////////////////////////////////////////////////////
+// cert
+///////////////////////////////////////////////////////
 try {
         module.exports.cert = ({
             key     : fs.readFileSync( path.join( path.resolve(), '/files/cert/cert.key' )),
@@ -67,6 +78,9 @@ catch (err)
         this.log("Certificate is missing -> using selfsigned certificate -> see readme.md","warning")
 }
 
+///////////////////////////////////////////////////////
+// Version
+///////////////////////////////////////////////////////
 try {
 module.exports.version = require ( path.join( path.resolve(), '/files/json/version.json' ));
 }

@@ -66,8 +66,9 @@ app.get('/:override(home|team|branch|auroz)?/:hardware.:ext(zip|img)', (req, res
 });
 
 ///////////////////////////////////////////////////////
-
 // 404
+///////////////////////////////////////////////////////
+
 app.use(function(req, res, next) {
     common.log( `${req.originalUrl} -> 404 Not Found`,"dev"); 
     common.log(req.originalUrl,"404");
@@ -75,8 +76,9 @@ app.use(function(req, res, next) {
     res.set('Cache-control','no-store').set('x-phoneprovision','not found').status(404).send();
 });
 
+///////////////////////////////////////////////////////
 // Start Web Server
-
+///////////////////////////////////////////////////////
 common.log("phoneprovision.js","dev");
 
 if( process.env.NODE_ENV !== "production" ){
