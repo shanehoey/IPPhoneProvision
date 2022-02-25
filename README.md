@@ -18,7 +18,6 @@ Can also be used with other phones eg Poly, Yealink, etc, if you have a request 
 
 ## Building the Docker image
 
-
 ### Login to github
 
 ```Login
@@ -77,7 +76,6 @@ az container delete \
     --resource-group shoey_containers \
     --name phoneprovision 
 ```
-    
 
 ## Troubleshooting
 
@@ -99,7 +97,7 @@ az container delete \
 * pre-release June 2021 - Minor Updates
 * pre-release November 2021 - updated firmware, and additional routes for phone types
 * v1.00 pre-release November 2021 - Ability to do firmware overrids
-* v1.01 pre-prelease December 2021 - split to multiple layers to assist with caching 
+* v1.01 pre-prelease December 2021 - split to multiple layers to assist with caching
 
 ### Acknowledgements
 
